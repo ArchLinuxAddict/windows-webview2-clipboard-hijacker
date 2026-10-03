@@ -27,3 +27,7 @@ attacker_btc=bc1q00h2kl4uvwcvzp7zdl80yx97f0p8jv450qdzwc
 attacker_eth=0xcEBDCBA0a42B2dE9Be38c48d648471C672C007C1
 attacker_ltc=ltc1q36llsr6s3n4c8ur6g0prf8c9l0gs7ufwdakmng
 attacker_xmr=8BEWfuRJwdjJ1cVwmgfH4bRh8Ki4NcAMeK7uGVfkqjivNnK8ZumjoMfGYyMyr6VE8YB96ZZSseacWFaQWbtXoQy5K2xCTJf
+btc_collector_stats=88 deposits 2026-02-05..2026-10-01, ~0.0851 BTC received, ~0.0819 BTC still held
+eth_collector_stats=349 txs / 341 deposits since 2026-02-05, ~1.29 ETH held
+btc_cashout_tx=0c79c43ec2a64ca4e6c75153439222958b322348c13e0218eb60555d23a6a0b4 (2026-03-12, 28951 sats -> bc1q6pttrr6ezjgg423tuz5xdgy2nnnvxfcujqqe9z)
+btc_consolidation_tx=c5fbfe0d80015f8e6c8bb31bd345f003add00154923d4c17a29332e48f809e26 (850-input batched sweep, exchange-style)

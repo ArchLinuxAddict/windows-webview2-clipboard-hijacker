@@ -74,6 +74,23 @@ The recovered DLL was analyzed statically (no execution). Key findings:
 
 No public family name was found for this sample: the mutex GUID, hash constants and decryptor constants produced no threat-intel matches, so it currently appears to be a private/custom build. The strongest tracking leads are the address pool (on-chain) and the unique fingerprints above (for finding related samples).
 
+## On-chain footprint (as of 2026-10-03)
+
+Both collector wallets are self-custody addresses reused across all victims of this sample, so every victim's evidence links into the same trace.
+
+**BTC collector** `bc1q00h2kl4uvwcvzp7zdl80yx97f0p8jv450qdzwc`
+
+- 88 incoming payments since 2026-02-05, ~0.0851 BTC (≈ $9k) received; only one spend so far
+- The single cash-out (2026-03-12, tx [`0c79c43e...23a6a0b4`](https://mempool.space/tx/0c79c43ec2a64ca4e6c75153439222958b322348c13e0218eb60555d23a6a0b4)) sent 28,951 sats to `bc1q6pttrr6ezjgg423tuz5xdgy2nnnvxfcujqqe9z`, whose UTXO was later merged as input #850 of a large batched consolidation transaction [`c5fbfe0d...809e26`](https://mempool.space/tx/c5fbfe0d80015f8e6c8bb31bd345f003add00154923d4c17a29332e48f809e26) - the pattern of an exchange/service hot-wallet sweep, and the strongest KYC lead for law enforcement
+- Remaining balance: ~0.0819 BTC
+
+**ETH collector** `0xcEBDCBA0a42B2dE9Be38c48d648471C672C007C1`
+
+- 349 transactions / 341 deposits since 2026-02-05; current balance ≈ 1.29 ETH; only 8 spends
+- Explorer: <https://etherscan.io/address/0xcEBDCBA0a42B2dE9Be38c48d648471C672C007C1>
+
+Reporting these addresses to exchanges and to Chainabuse gets them flagged, so that any later cash-out into a KYC venue can be traced or frozen if a police report is on file.
+
 ## Indicators of Compromise (IOCs)
 
 See [`IOCS.txt`](IOCS.txt). Summary:
