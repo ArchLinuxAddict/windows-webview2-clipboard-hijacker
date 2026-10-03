@@ -7,6 +7,7 @@ A documented field report and detection toolkit for a Windows cryptocurrency **c
 | **Platform** | Windows 11 (build 26200) |
 | **Malware file planted** | 19 August 2026 |
 | **Detected / removed** | 3 October 2026 |
+| **Sample (SHA-256)** | `397f3ca8e8b3f8498e319e645eb8331478ed495f47ebb41d3d1faa9a5c30eec5` · [VirusTotal submission](https://www.virustotal.com/gui/file/397f3ca8e8b3f8498e319e645eb8331478ed495f47ebb41d3d1faa9a5c30eec5) |
 | **AV detection** | Missed by a fully updated Bitdefender for ~2 months (Windows Defender was disabled by Bitdefender) |
 | **Impact** | Cryptocurrency payments redirected to attacker wallets after copying an exchange deposit address |
 
@@ -62,6 +63,7 @@ See [`IOCS.txt`](IOCS.txt). Summary:
 - Folder contains **only** this file (a real WebView2 runtime installs many files under `...\EdgeWebView\Application\<version>\`)
 - Unsigned, with **fabricated Microsoft Edge WebView2 version resources** (`Microsoft Edge WebView2 Loader`, `Microsoft Edge WebView2 Runtime Helper`, © Microsoft Corporation)
 - SHA-256: `397f3ca8e8b3f8498e319e645eb8331478ed495f47ebb41d3d1faa9a5c30eec5`
+- VirusTotal submission: <https://www.virustotal.com/gui/file/397f3ca8e8b3f8498e319e645eb8331478ed495f47ebb41d3d1faa9a5c30eec5>
 
 **Registry**
 

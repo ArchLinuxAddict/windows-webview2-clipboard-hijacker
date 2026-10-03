@@ -6,6 +6,7 @@ file_path=%LOCALAPPDATA%\Microsoft\EdgeWebView\msedgeview.dll
 file_size=34816
 file_attributes=Hidden,Archive
 sha256=397f3ca8e8b3f8498e319e645eb8331478ed495f47ebb41d3d1faa9a5c30eec5
+virustotal=https://www.virustotal.com/gui/file/397f3ca8e8b3f8498e319e645eb8331478ed495f47ebb41d3d1faa9a5c30eec5
 
 registry_key=HKCU\Software\Classes\CLSID\{AAA288BA-9A4C-45B0-95D7-94D524869DB5}
 registry_value=InprocServer32
