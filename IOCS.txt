@@ -16,6 +16,12 @@ legit_server=C:\WINDOWS\system32\wpdshserviceobj.dll
 
 window_class=MsEdgeWV
 host_process=explorer.exe
+mutex=Local\{8F6E2A14-C9D1-4bdd-B8CF-92F04E6B3E9F}
+self_install=HKCU\Software\Classes\CLSID\{AAA288BA-9A4C-45B0-95D7-94D524869DB5}\InprocServer32 + ThreadingModel=Both (written by the DLL itself via NtCreateKey/NtSetValueKey)
+api_hash_algorithm=seed 0xDbbc8e2d; h=(h^c)*0x23fa97f3; h^=h>>15; h*=0x93dc8bd1; h^=h>>13; h*=0xac5df4e3; h^=h>>16
+string_xor_key=0x93
+config_decrypt=xorshift32 keystream (RVA 0x3B30 for mutex string, RVA 0x4DF0 for the 1088-byte address pool)
+address_pool_file=iocs/attacker-address-pool.txt
 
 attacker_btc=bc1q00h2kl4uvwcvzp7zdl80yx97f0p8jv450qdzwc
 attacker_eth=0xcEBDCBA0a42B2dE9Be38c48d648471C672C007C1

@@ -40,7 +40,7 @@ Observed characteristics:
 - Swap occurs in **under 400 ms** after any clipboard change, including programmatic `SetClipboard` and real `Ctrl+C` from Notepad.
 - The clipboard owner is a hidden window of class `MsEdgeWV` belonging to `explorer.exe`.
 - Clipboard content is stable after Explorer is restarted **only if** the COM hijack is removed first; otherwise the payload reloads with Explorer.
-- No plaintext attacker addresses were found in Explorer's memory or on disk scans — the payload stores its data obfuscated or fetches it remotely (a simple ASCII/UTF-16 string hunt fails).
+- The replacement addresses are stored **encrypted inside the DLL itself** — the sample has no network capability at all (no C2). The full **23-address, 23-chain pool** was recovered during reverse engineering: see [`iocs/attacker-address-pool.txt`](iocs/attacker-address-pool.txt).
 
 ## Execution chain
 
@@ -48,6 +48,31 @@ Observed characteristics:
 2. COM class resolution checks `HKCU\Software\Classes\CLSID\...` **before** `HKLM\...`. The hijacked key points `InprocServer32` at the attacker DLL, so Windows loads it instead of `wpdshserviceobj.dll`.
 3. The malicious DLL runs in-process inside `explorer.exe`, registers the hidden message-only class `MsEdgeWV` and begins monitoring `WM_CLIPBOARDUPDATE`.
 4. When the clipboard contains a wallet address, the payload writes the attacker's per-coin address back to the clipboard using its hidden window as owner — so the clipboard appears to be owned by a legitimate-looking WebView2 component in Explorer.
+
+## Reverse engineering summary
+
+The recovered DLL was analyzed statically (no execution). Key findings:
+
+- **Type:** x64 COM DLL (linker 14.0), **PE timestamp zeroed** and no Rich header (anti-forensics), exports `DllGetClassObject` plus an unnamed ordinal that simply loops on `Sleep` forever when called (decoy).
+- **API resolution:** the import table contains only decoys. All real APIs are resolved manually from `kernelbase` / `user32` / `ntdll` / `rpcrt4` exports using a **custom 32-bit name-hash**:
+
+  ```
+  h = 0xDbbc8e2d
+  for each byte c of the export name:
+      h = (h ^ c) * 0x23FA97F3
+  h ^= h >> 15;  h *= 0x93DC8BD1
+  h ^= h >> 13;  h *= 0xAC5DF4E3
+  h ^= h >> 16
+  ```
+
+  All **43** hash constants were cracked. They cover the complete clipboard pipeline (`RegisterClassExA`, `CreateWindowExA`, `AddClipboardFormatListener`, `PeekMessageA`, `DispatchMessageA`, `MsgWaitForMultipleObjects`, `GetClipboardSequenceNumber`, `IsClipboardFormatAvailable`, `OpenClipboard`, `GetClipboardData`, `EmptyClipboard`, `SetClipboardData`, `CloseClipboard`, `GlobalAlloc/GlobalLock/GlobalUnlock/GlobalFree`), plus registry writes (`NtCreateKey`, `NtSetValueKey`), loading (`LoadLibraryA`, `GetModuleFileNameA`, `GetSystemDirectoryA`, `LdrAddRefDll`), threading (`CreateThread`, `CreateMutexA`), anti-debug (`IsDebuggerPresent`) and fingerprinting APIs.
+- **String encryption:** XOR `0x93` (helper at RVA `0x4EA0`). Decrypts to `wpdshserviceobj.dll`, `Software\Classes\CLSID\{AAA288BA-9A4C-45B0-95D7-94D524869DB5}\InprocServer32`, `ThreadingModel`, `Both`, and the fake WebView2 log strings.
+- **Config encryption:** two xorshift32-keystream decryptors (RVA `0x3B30` and `0x4DF0`). The first decrypts the single-instance mutex `Local\{8F6E2A14-C9D1-4bdd-B8CF-92F04E6B3E9F}`; the second decrypts a **1088-byte blob** containing the attacker's **23-address multi-chain replacement pool** (BTC, ETH/EVM, LTC, BCH, Dash, Doge, DigiByte, Cardano, Cosmos, MultiversX, Zcash, Ravencoin, Qtum, XRP, Algorand, Monero, TRON, Stellar, Solana, Tezos, Zilliqa, Polkadot, Kusama). The pool is split using the malware's own embedded lengths table (sum = 1088 exactly).
+- **Self-install:** the payload writes its own COM hijack key (`Software\Classes\CLSID\{AAA288BA-...}\InprocServer32`, `ThreadingModel = Both`) through `NtCreateKey`/`NtSetValueKey` — it re-creates its persistence whenever it runs.
+- **COM camouflage:** `DllGetClassObject` loads the genuine `C:\Windows\System32\wpdshserviceobj.dll` and forwards to `rpcrt4!DllGetClassObject`, so Explorer's COM call behaves normally while the malicious worker thread is spawned from `DllMain`.
+- **No C2:** there are no networking APIs anywhere in the sample; the entire address pool is static. The campaign relies purely on replacement, not on remote control.
+
+No public family name was found for this sample: the mutex GUID, hash constants and decryptor constants produced no threat-intel matches, so it currently appears to be a private/custom build. The strongest tracking leads are the address pool (on-chain) and the unique fingerprints above (for finding related samples).
 
 ## Indicators of Compromise (IOCs)
 

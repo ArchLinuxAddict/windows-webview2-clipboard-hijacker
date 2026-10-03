@@ -1,0 +1,31 @@
+# Attacker address pool - decrypted from the malicious msedgeview.dll
+# Sample SHA-256: 397f3ca8e8b3f8498e319e645eb8331478ed495f47ebb41d3d1faa9a5c30eec5
+# Source: encrypted blob in .rdata at RVA 0x8030 (1088 bytes), decryptor at RVA 0x4DF0 (xorshift32 keystream)
+# Split method: the malware's own embedded lengths table at RVA 0x8470 (lengths sum exactly to 1088)
+# Use: if any of these addresses appear in a transaction that should have gone elsewhere, it is theft.
+# The pool is static in the binary; the malware has no network capability (no C2).
+
+# idx  len  chain                     address
+1      42   BTC (bech32)              bc1q00h2kl4uvwcvzp7zdl80yx97f0p8jv450qdzwc
+2      42   EVM (ETH/BSC/Polygon etc.) 0xcEBDCBA0a42B2dE9Be38c48d648471C672C007C1
+3      45   Cosmos                    cosmos1yfz6xgfthznz49lgsr0q4lqkk4x00qfmdlcfsp
+4      43   Litecoin (bech32)         ltc1q36llsr6s3n4c8ur6g0prf8c9l0gs7ufwdakmng
+5      42   Bitcoin Cash (cashaddr)   qqqy6zr32qpzzytnang96cz9gc9hs38gp5wzgqx58s
+6      34   Dash                      Xeq1ZeueYN6fU6nHZL99MBSesmUh8w6oXJ
+7      34   Dogecoin                  DEmFnTGfv8KhVbsFmJfoq1CLaAQSJYF1kg
+8      43   DigiByte (bech32)         dgb1qn67zwq3w3x666vknfp5ynecqzzlglxsqmvrnva
+9      103  Cardano                   addr1q9psyh6yl88zz6esprnprpff8lpq2sgfz56myfhdhg9q5qlmukmt5r84q62ghmtu422hwemz2fuacy6vnjl6pd7ml2ss92y9sv
+10     62   MultiversX (Elrond)       erd1x7rf63e4sdzwqfcpne8qycle6uhp3kuzaeswwh5q7p5krprtgmxslf4960
+11     35   Zcash (transparent)       t1egicEAYisaU4URh8d5Cb1SdbKH9bA4c9j
+12     34   Ravencoin                 RWWw9sWmqGTaBSJpdvcSNYifW6BuGdnSRM
+13     34   Qtum                      QXUeT2ggYuiKfbVygZKxF8cTRKSfXGoHzP
+14     95   Monero                    8BEWfuRJwdjJ1cVwmgfH4bRh8Ki4NcAMeK7uGVfkqjivNnK8ZumjoMfGYyMyr6VE8YB96ZZSseacWFaQWbtXoQy5K2xCTJf
+15     58   Algorand                  77RJ6R6NMZJK2CW4RS3V63O2IUET53DSD3UZQFGRS5ZUPAK65RDOYAKNUI
+16     34   XRP (Ripple)              rMFtSo6jQ2BggQ3vSVTH1T88BEtmLaw7NN
+17     34   TRON                      TL1417xeaNrvU6La3N5Vgpye1e47i4zHUv
+18     56   Stellar                   GA7YIILUDNTFN73GJL7DF5AFX6PIXH7IKOCLHYO5CSBLJ4E7RA4JMU3R
+19     44   Solana                    2UoxbkKwhZSvEtTUzWf9aghXi1LJgsgpGApxvFpSdvf3
+20     36   Tezos                     tz1NdipptjAEnoKRYdPTPhqV1DfvDMRw5GHc
+21     42   Zilliqa                   zil103d8c96syrc6hxpnhd23nw84yq0czs6wp8pffe
+22     48   Polkadot                  15Bz9yn1t86HC3sAt2zD9WumVNtUFjYK3LrLWdNxdi3vUfif
+23     48   Kusama                    UQBXWondBQbWC2NwTHeXfYMk4WWhzVPBAPZ3000rAl5heLUp
